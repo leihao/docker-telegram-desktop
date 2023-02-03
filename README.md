@@ -1,5 +1,5 @@
 # docker-telegram-desktop
-[![Build Status](https://github.com/leihao/docker-telegram-desktop/actions/workflows/docker-image.yml/badge.svg?branch=main)](https://github.com/leihao/docker-telegram-desktop/actions/workflows/docker-image.yml)
+[![ci](https://github.com/leihao/docker-telegram-desktop/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/leihao/docker-telegram-desktop/actions/workflows/docker-publish.yml)
 
 Run telegram in docker with vnc support
 ### GitHub:
@@ -19,7 +19,7 @@ Run telegram in docker with vnc support
       -p 5900:5900 \
       -v /PATH_TO_YOUR_CONFIG:/config \
       --restart unless-stopped \
-      leihao/docker-telegram-desktop:latest
+      leihaocn/docker-telegram-desktop:latest
    ```
 
 2. Docker compose
@@ -28,7 +28,7 @@ Run telegram in docker with vnc support
     version: '2.4'
     services:
       telegram-desktop:
-        image: leihao/docker-telegram-desktop:latest
+        image: leihaocn/docker-telegram-desktop:latest
         network_mode: bridge
         hostname: telegram-desktop
         container_name: telegram-desktop
