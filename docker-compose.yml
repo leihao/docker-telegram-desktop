@@ -1,7 +1,7 @@
 version: '2.4'
 services:
   telegram-desktop:
-    image: alpine-telegram-desktop:v1
+    image: leihaocn/docker-telegram-desktop:latest
     network_mode: bridge
     hostname: telegram-desktop
     container_name: telegram-desktop
