@@ -1,0 +1,20 @@
+version: '2.4'
+services:
+  telegram-desktop:
+    image: alpine-telegram-desktop:v1
+    network_mode: bridge
+    hostname: telegram-desktop
+    container_name: telegram-desktop
+    ports:
+      - '5805:5800'
+      - '5905:5900'
+    volumes:
+      - ./:/config
+    environment:
+      TZ: Asia/Shanghai
+      USER_ID: 1026
+      GROUP_ID: 100
+      WEB_LISTENING_PORT: 5800
+      VNC_LISTENING_PORT: 5900
+      VNC_PASSWORD:
+      KEEP_APP_RUNNING: '1'
