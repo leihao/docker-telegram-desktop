@@ -94,4 +94,5 @@ jobs:
         uses: actions/delete-package-versions@v4
         with:
           package-name: ${{ env.IMAGE_NAME }}
-          num-old-versions-to-delete: 1 #删除最旧的一个包
+          package-type: container          
+          min-versions-to-keep: 2
