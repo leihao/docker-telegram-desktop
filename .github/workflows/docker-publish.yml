@@ -22,30 +22,7 @@ jobs:
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
           fi
-          echo ::set-output name=tags::${VERSION}          
-  push-ghcr:
-    needs: get-tags
-    runs-on: ubuntu-20.04
-    env:
-      TZ: Asia/Shanghai
-      REGISTRY: ghcr.io
-    steps:
-      - uses: actions/checkout@v2
-      - name: Login
-        uses: docker/login-action@v1
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.PACKAGES_TOKEN }}
-      - name: Build && Push
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: |
-            ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ needs.get-tags.outputs.tags }}
-            ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest            
+          echo ::set-output name=tags::${VERSION}
   push-docker-hub:
     needs: get-tags
     runs-on: ubuntu-20.04
@@ -66,33 +43,4 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ needs.get-tags.outputs.tags }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest            
-  push-docker-pkg-github:
-    needs: get-tags
-    runs-on: ubuntu-20.04
-    env:
-      REGISTRY: docker.pkg.github.com
-      TZ: Asia/Shanghai
-    steps:
-      - uses: actions/checkout@v2
-      - name: Login
-        uses: docker/login-action@v1
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.PACKAGES_TOKEN }}
-      - name: Build && Push
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: |
-            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ needs.get-tags.outputs.tags }}
-            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest            
-      #- name: Delete Package
-      #  uses: actions/delete-package-versions@v4
-      #  with:
-      #    package-name: ${{ env.IMAGE_NAME }}
-      #    package-type: container          
-      #    min-versions-to-keep: 1
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
